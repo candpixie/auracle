@@ -47,13 +47,33 @@ That descent is a frequency that was never played.
 
 ## Output
 
-- `out/staircase.png` — the same waveform at 1000 ms, 50 ms, 5 ms, 1 ms. In the
-  last panel the samples become visible as dots, and the line connecting them is
-  revealed as an assumption.
-- `out/aliasing.png` — three spectrograms, with the predicted fold pattern
-  overlaid on the broken one. The measured alias should sit exactly on the
-  dashed prediction line.
-- Three `.wav` files (gitignored, regenerate by running the script).
+![aliasing](out/aliasing.png)
+
+Left: the original, climbing to 20 kHz. Middle: decimated with no filter, folding off
+the 4 kHz ceiling and the 0 Hz floor twice, with the predicted fold overlaid as a dashed
+line and sitting exactly on the measurement. Right: resampled properly, so the sweep
+simply stops at 4 kHz and nothing comes back.
+
+![staircase](out/staircase.png)
+
+The same waveform at four zoom levels. In the last panel the samples become visible as
+dots, and the line connecting them is revealed as an assumption.
+
+Also written: three `.wav` files. Those are gitignored (regenerable, and the blanket
+audio rule is what keeps copyrighted source material out of a public repo by accident).
+
+## A bug worth recording
+
+The first version of this lab used `scipy.signal.resample_poly` for the "correct"
+panel, and that panel folded almost as badly as the broken one. The default Kaiser
+anti-alias filter gives roughly 40 dB of stopband attenuation, which is not close to
+enough for a full-scale sweep: 40 dB down is still plainly visible on a spectrogram.
+Switching to `soxr_vhq` (past 100 dB) fixed it.
+
+Two lessons, and the second is the one that generalizes. First, "I applied the
+anti-aliasing filter" is not a binary, it is a number, and the number matters. Second,
+the bug was only visible because all three panels shared a fixed 80 dB display range.
+On autoscaled axes it would have looked fine.
 
 ## Sources
 
