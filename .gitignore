@@ -1,11 +1,19 @@
+# raw data never gets committed. the spotify export and any source audio stay local.
 data/raw/
+
+# audio outputs are regenerable, and a blanket rule here is the safety net that
+# keeps copyrighted source material out of a public repo by accident
 *.wav
 *.mp3
 *.flac
 *.m4a
+
+# lab outputs: figures are the artifact and get committed, audio does not
+labs/*/out/*
+!labs/*/out/*.png
+
 .venv/
 __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 cpp/build/
-labs/*/out/
