@@ -1,33 +1,23 @@
-# Day 01 — Air pressure becomes a number
+# Day 01: Air pressure becomes a number
 
 ## The ear does this
 
-The eardrum is a transducer. Pressure variation in air becomes mechanical motion,
-the ossicles pass it to the cochlea, and hair cells convert it into neural firing.
-It is a continuous system from end to end. There is no sample rate anywhere in it.
+As we know, the eardrum is a transducer. Pressure variation in air becomes mechanical motion, the ossicles pass it to the cochlea, and hair cells convert it into neural firing. It is a continuous system from end to end. There is no sample rate anywhere in it.
 
 ## The machine does this
 
-Measures the pressure a fixed number of times per second and stores each
-measurement as an integer.
+Measures the pressure a fixed number of times per second and stores each measurement as an integer.
 
-- **Sample rate**: how often. 44,100 times a second is standard.
-- **Nyquist**: you can only represent frequencies below *half* the sample rate.
-  Hearing tops out near 20 kHz, so you need 40 kHz minimum, plus headroom for
-  the anti-alias filter. That is where 44.1 kHz comes from.
-- **Bit depth**: how precisely each measurement is stored. 16 bits gives roughly
-  96 dB of dynamic range, and the leftover error is quantization noise.
+- **Sample rate**: frequency. 44,100 times a second is standard.
+- **Nyquist**: you can only represent frequencies below *half* the sample rate. Hearing tops out near 20 kHz, so you need 40 kHz minimum, plus headroom for the anti-alias filter. That is where 44.1 kHz comes from.
+- **Bit depth**: how precisely each measurement is stored. 16 bits gives roughly 96 dB of dynamic range, and the leftover error is quantization noise.
 
-## Where it breaks
+## Where sound breaks
 
-**Aliasing.** Sample too slowly and frequencies above Nyquist do not vanish, they
-*fold back* and reappear as lower frequencies, indistinguishable from real ones.
-It is not degradation you can clean up afterward. The information is gone and has
-been replaced with something false.
+**Aliasing.** When it is sampled too slowly and frequencies above Nyquist do not vanish, they
+*fold back* and reappear as lower frequencies, indistinguishable from real ones. It is not degradation you can clean up afterward. The information is gone and has been replaced with something false.
 
-And the deeper point: **aliasing has no perceptual counterpart at all.** The cochlea
-cannot alias, because it never samples. This is the cleanest example in the whole
-17 days of the machine not being a model of the ear, just a substitute for it.
+And the deeper point: **aliasing has no perceptual counterpart at all.** The cochlea cannot alias, because it never samples.
 
 ## Run it
 
@@ -49,17 +39,15 @@ That descent is a frequency that was never played.
 
 ![aliasing](out/aliasing.png)
 
-Left: the original, climbing to 20 kHz. Middle: decimated with no filter, folding off
-the 4 kHz ceiling and the 0 Hz floor twice, with the predicted fold overlaid as a dashed
-line and sitting exactly on the measurement. Right: resampled properly, so the sweep
+Left: the original, climbing to 20 kHz. Middle: decimated with no filter, folding off the 4 kHz ceiling and the 0 Hz floor twice, with the predicted fold overlaid as a dashed line and sitting exactly on the measurement. Right: resampled properly, so the sweep
 simply stops at 4 kHz and nothing comes back.
 
 ![staircase](out/staircase.png)
 
-The same waveform at four zoom levels. In the last panel the samples become visible as
+Indicates the same waveform at four zoom levels. In the last panel the samples become visible as
 dots, and the line connecting them is revealed as an assumption.
 
-Also written: three `.wav` files. Those are gitignored (regenerable, and the blanket
+Also written: three `.wav` files. Those are intentionally gitignored (regenerable, and the blanket
 audio rule is what keeps copyrighted source material out of a public repo by accident).
 
 ## A bug worth recording
