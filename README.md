@@ -15,7 +15,7 @@ Every day follows the same three beats:
 > **1. The ear does this.  2. The machine does this.  3. Here is where the machine fails.**
 
 The third beat is the main goal. Every learning log on the internet has resources and code.
-However, not all of them explains why in fails from a humanistic perspective.
+However, not all of them explain why it fails from a humanistic perspective.
 
 ## The 17 days
 
