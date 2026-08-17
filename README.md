@@ -21,8 +21,8 @@ However, not all of them explains why in fails from a humanistic perspective.
 
 | Day | Title | Status |
 |-----|-------|--------|
-| 01 | Air pressure becomes a number | in progress |
-| 02 | Frequency becomes pitch | |
+| [01](labs/day-01-sampling/) | Air pressure becomes a number | done |
+| [02](labs/day-02-fft/) | Frequency becomes pitch | done |
 | 03 | Amplitude becomes loudness | |
 | 04 | The perceptual frequency axis | |
 | 05 | Timbre, or why a violin is not a flute | |
