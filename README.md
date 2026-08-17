@@ -1,6 +1,6 @@
 # Auracle
 
-**17 days of machine listening.** Aug 16 to Sep 1, 2026.
+**17 days of machine listening.** Timeline: Aug 16 to Sep 1, 2026.
 
 > Can a machine hear what a person hears?
 
@@ -14,8 +14,8 @@ Every day follows the same three beats:
 
 > **1. The ear does this.  2. The machine does this.  3. Here is where the machine fails.**
 
-The third beat is the point. Every learning log on the internet has resources and code.
-Almost none of them say what did not work.
+The third beat is the main goal. Every learning log on the internet has resources and code.
+However, not all of them explains why in fails from a humanistic perspective.
 
 ## The 17 days
 
