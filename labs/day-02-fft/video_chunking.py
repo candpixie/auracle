@@ -105,6 +105,12 @@ def main():
                                         STEPS, base=2)).astype(int))
     sizes = np.concatenate([up, up[::-1][1:-1]])
 
+    # hold each window size for several frames so ONE pass covers the whole
+    # section of the video. looping a 6 s clip four times is visibly a loop.
+    target_s = float(sys.argv[1]) if len(sys.argv) > 1 else 18.0
+    hold = max(1, round(target_s * FPS / len(sizes)))
+    sizes = np.repeat(sizes, hold)
+
     for i, n in enumerate(sizes):
         render(x, int(n), i, (i % 12) / 11.0)      # the highlight sweeps as we go
         if i % 20 == 0:
