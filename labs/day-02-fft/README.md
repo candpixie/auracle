@@ -112,3 +112,28 @@ autoscaling. Autoscaling is what hid day 1's filter bug.
   Transform," Proc. IEEE, 1978 (the window comparison paper everyone still cites)
 - Cooley and Tukey, "An Algorithm for the Machine Calculation of Complex Fourier
   Series," Math. Comp., 1965
+
+## A third bug worth recording (added while making the video assets)
+
+The animated version labels each frame "2 NOTES ✓" or "1 BLOB ✗". I first computed
+that label from the textbook rule, *resolved if frequency resolution is finer than the
+tone spacing*, and the label disagreed with the picture on screen.
+
+Two separate things were wrong.
+
+1. That rule is the **rectangular-window** criterion. A Hann window's main lobe is
+   several times wider, so in practice these two tones need roughly 3 bins of separation,
+   not 1. The rule said "resolved" while the plot still showed one plateau.
+2. Switching to *count the peaks in the curve* was worse in a more interesting way. At
+   n = 2048 it happily found two peaks, sitting at **431 and 474 Hz**, nowhere near the
+   real 440 and 460. With a window shorter than the 50 ms beat period you get lobes from
+   the amplitude modulation of the two tones against each other, not from resolving
+   anything.
+
+The verdict now requires two peaks **and** requires them to land within 8 Hz of the
+actual tones, which is the claim being made. `resolves_notes` and `resolves_clicks` in
+`uncertainty.py` are shared by every figure here, so the still, the video still, and the
+animation cannot drift apart.
+
+Measured transition: these tones resolve somewhere between a 93 ms and a 139 ms window.
+The textbook rule predicted 50 ms.

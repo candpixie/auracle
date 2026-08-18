@@ -13,7 +13,8 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
-from uncertainty import FS, DURATION, TONE_A, TONE_B, CLICK_TIMES, build_signal
+from uncertainty import (FS, TONE_A, TONE_B, build_signal,
+                         resolves_clicks, resolves_notes)
 
 OUT = Path(__file__).parent / "out"
 
@@ -47,7 +48,8 @@ def main():
     for col, n in enumerate(SHOW):
         # --- the two clicks, 20 ms apart ---
         ax = axes[0, col]
-        *_, im = ax.specgram(x, NFFT=n, Fs=FS, noverlap=n * 3 // 4, cmap="magma")
+        spec, sfreqs, stimes, im = ax.specgram(
+            x, NFFT=n, Fs=FS, noverlap=n * 3 // 4, cmap="magma")
         top = im.get_clim()[1]
         im.set_clim(top - DB_RANGE, top)
         ax.set_xlim(0.56, 0.67)
@@ -55,7 +57,7 @@ def main():
         ax.set_title(LABELS[col], fontsize=24, color=ACCENT, pad=14, linespacing=1.25)
         ax.set_xticks([])
         ax.set_yticks([])
-        good = n < 20 / 1000 * FS
+        good = resolves_clicks(spec, sfreqs, stimes)
         ax.text(0.5, -0.09, "2 CLICKS ✓" if good else "1 SMEAR ✗",
                 transform=ax.transAxes, ha="center", fontsize=27,
                 color=GOOD if good else BAD, weight="bold")
@@ -73,7 +75,7 @@ def main():
         ax.set_ylim(-55, 8)
         ax.set_xticks([])
         ax.set_yticks([])
-        good = FS / n < 20
+        good = resolves_notes(x, n)
         if not good:
             ax.text(0.5, 0.45, "only ~1 data point\nin this whole range",
                     transform=ax.transAxes, ha="center", va="center",

@@ -42,6 +42,52 @@ DB_RANGE = 70                      # same fixed-range habit as day 1. see the no
                                    # in day 1's README about why autoscaling hides bugs.
 
 
+# ---------------------------------------------------------------------------
+# Verdicts, measured rather than asserted.
+#
+# The tempting shortcut is "resolved if freq resolution < tone spacing", but that
+# is the RECTANGULAR-window criterion and it is wrong by about 3x for a Hann
+# window, whose main lobe is far wider. Worse, naive peak counting reports two
+# peaks at n=2048 that sit at 431 and 474 Hz, nowhere near the real 440 and 460:
+# with a window shorter than the 50 ms beat period you get lobes from the
+# amplitude modulation, not from resolving anything.
+#
+# So: require two peaks AND require them to land on the actual tones.
+# ---------------------------------------------------------------------------
+
+TOL_HZ = 8.0
+
+
+def resolves_notes(x, n, fs=FS, at=0.10):
+    """Does a window of n samples actually separate the two tones?"""
+    from scipy.signal import find_peaks
+    start = int(at * fs)
+    chunk = x[start:start + n] * np.hanning(n)
+    mag = np.abs(np.fft.rfft(chunk))
+    db = 20 * np.log10(mag / mag.max() + 1e-12)
+    freqs = np.fft.rfftfreq(n, 1 / fs)
+    band = (freqs >= 370) & (freqs <= 530)
+    idx, _ = find_peaks(db[band], prominence=3.0)
+    found = freqs[band][idx]
+    hit = lambda target: np.any(np.abs(found - target) <= TOL_HZ)
+    return bool(hit(TONE_A) and hit(TONE_B))
+
+
+def resolves_clicks(spec, sfreqs, stimes):
+    """Does this spectrogram show two separate clicks? Reads the drawn data."""
+    from scipy.signal import find_peaks
+    fband = (sfreqs >= 2000) & (sfreqs <= 12000)
+    twin = (stimes >= 0.56) & (stimes <= 0.67)
+    if twin.sum() < 3:
+        return False
+    marginal = spec[np.ix_(fband, twin)].sum(axis=0)
+    marginal = marginal / (marginal.max() + 1e-20)
+    idx, _ = find_peaks(marginal, prominence=0.15)
+    times = stimes[twin][idx]
+    hit = lambda target: np.any(np.abs(times - target) <= 0.008)
+    return bool(hit(CLICK_TIMES[0]) and hit(CLICK_TIMES[1]))
+
+
 def build_signal():
     t = np.arange(int(FS * DURATION)) / FS
 

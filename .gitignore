@@ -17,3 +17,6 @@ __pycache__/
 .ipynb_checkpoints/
 .DS_Store
 cpp/build/
+
+# animation frames are intermediate; the mp4 is the artifact
+labs/*/out/_frames/
