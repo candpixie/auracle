@@ -6,3 +6,4 @@ soundfile
 pandas
 scikit-learn
 jupyter
+pyloudnorm
