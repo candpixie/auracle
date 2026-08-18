@@ -92,6 +92,69 @@ def render(x, n, idx, sweep):
         plt.close(fig)
 
 
+STILL_CHUNKS = [512, 8192]      # ~12 ms and ~186 ms
+
+
+def render_still():
+    """One waveform, sliced two ways, side by side. The video version is nice but
+    a still lets someone compare the two chunk sizes without waiting."""
+    x, _ = build_signal()
+    t = np.arange(len(x)) / FS
+    sel = (t >= T0) & (t <= T1)
+    tv, xv = t[sel], x[sel]
+
+    with plt.rc_context({"figure.facecolor": BG, "axes.facecolor": BG,
+                         "text.color": FG, "axes.edgecolor": "#3a3350"}):
+        fig = plt.figure(figsize=(10.8, 19.2))
+        fig.suptitle("the computer can't\nhear all of it at once.", fontsize=33,
+                     color=FG, y=0.978, va="top", linespacing=1.35)
+        fig.text(0.5, 0.876, "it slices the sound up and looks at one slice at a time.",
+                 ha="center", va="top", fontsize=21, color="#9d94b8")
+
+        for row, n in enumerate(STILL_CHUNKS):
+            dt = n / FS
+            ax = fig.add_axes([0.09, 0.545 - row * 0.345, 0.86, 0.255])
+
+            grid = (np.floor(tv / dt) % 2).reshape(1, -1)
+            ax.imshow(grid, aspect="auto", cmap="Greys", alpha=0.12,
+                      extent=[T0, T1, -1.15, 1.15], origin="lower", zorder=0)
+
+            edges = np.arange(np.floor(T0 / dt), np.ceil(T1 / dt) + 1) * dt
+            inside = edges[(edges >= T0) & (edges < T1)]
+            for e in edges:
+                ax.axvline(e, color="#4a4266", lw=1.2, zorder=2)
+            if len(inside):
+                k = len(inside) // 2
+                ax.axvspan(inside[k], min(inside[k] + dt, T1), color=HILITE,
+                           alpha=0.30, zorder=1)
+                ax.axvline(inside[k], color=HILITE, lw=2.5, zorder=4)
+                ax.axvline(min(inside[k] + dt, T1), color=HILITE, lw=2.5, zorder=4)
+
+            ax.plot(tv, xv, lw=1.1, color=WAVE, zorder=3)
+            for ct in CLICK_TIMES:
+                ax.plot(ct, 1.02, "v", ms=13, color=ACCENT, zorder=5)
+
+            ax.set_xlim(T0, T1); ax.set_ylim(-1.15, 1.15)
+            ax.set_xticks([]); ax.set_yticks([])
+
+            n_chunks = max(1, int(round((T1 - T0) / dt)))
+            label = "TINY CHUNKS" if row == 0 else "BIG CHUNKS"
+            fig.text(0.09, 0.822 - row * 0.345, label, fontsize=27,
+                     color=ACCENT, weight="bold")
+            fig.text(0.95, 0.822 - row * 0.345,
+                     f"{dt * 1000:.0f} ms  ·  {n_chunks} chunks",
+                     fontsize=23, color="#9d94b8", ha="right")
+
+        fig.text(0.5, 0.145, "green = the one chunk it's looking at right now.",
+                 ha="center", va="top", fontsize=23, color=HILITE)
+        fig.text(0.5, 0.075, "everything outside it is invisible\nuntil the next chunk.",
+                 ha="center", va="top", fontsize=28, color=FG, linespacing=1.45)
+
+        fig.savefig(OUT / "video_chunking_still.png", dpi=100, facecolor=BG)
+        plt.close(fig)
+    print(f"wrote {OUT / 'video_chunking_still.png'}  (1080 x 1920)")
+
+
 def main():
     if not shutil.which("ffmpeg"):
         sys.exit("ffmpeg not found. brew install ffmpeg")
@@ -99,6 +162,8 @@ def main():
     if FRAMES.exists():
         shutil.rmtree(FRAMES)
     FRAMES.mkdir()
+
+    render_still()
 
     x, _ = build_signal()
     up = np.unique(np.round(np.logspace(np.log2(N_MIN), np.log2(N_MAX),
