@@ -42,7 +42,7 @@ Anything that doesn't survive gets retracted here, in public, with a line throug
 | [01](day-01.md) | Air pressure becomes a number | aliasing: the machine hears a note nobody played |
 | [02](day-02.md) | Frequency becomes pitch | you can't know *when* and *what* at the same time |
 | [03](day-03.md) | Amplitude becomes loudness | every loudness meter is a guess about a person |
-| 04 | The perceptual frequency axis | mel is a compromise fit to speech, not a cochlea |
+| [04](day-04.md) | The perceptual frequency axis | "mel spectrogram" names two different scales that disagree by 2x |
 | 05 | Timbre | the standard tool for music throws away pitch on purpose |
 | 06 | Pitch that isn't there | |
 | 07 | The beat is not in the signal | the machine hears half-time |
