@@ -20,3 +20,20 @@ cpp/build/
 
 # animation frames are intermediate; the mp4 is the artifact
 labs/*/out/_frames/
+
+# ---------------------------------------------------------------------------
+# PERSONAL LISTENING HISTORY. NEVER COMMITTED, NEVER PUSHED.
+# The Spotify export is a minute-by-minute record of years of private behaviour.
+# Everything derived from it stays local too: aggregates still leak taste,
+# schedule, and location.
+# ---------------------------------------------------------------------------
+data/
+data/**
+*.json.gz
+spotify_raw.json
+genre_counts.json
+top_artists.json
+**/Streaming_History_*
+**/*listening*
+**/*spotify*history*
+.spotify-token-cache
