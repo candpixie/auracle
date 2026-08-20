@@ -62,3 +62,35 @@ Spotify's genre tags are attached to **artists**, not tracks, and plenty of arti
 have an empty `genres` array, especially smaller or non-Western ones. If your
 histogram comes back thin, that is the data, not a bug. It is also exactly the
 weakness that motivates using real audio features later.
+
+---
+
+# Figure style
+
+Every figure and video card in this project imports one style module, so they
+share a typeface and palette instead of each script picking its own.
+
+```python
+import sys
+from pathlib import Path
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from auracle.style import ACCENT, BG, FG, GOOD, BAD, DIM, apply, display, text
+
+apply()                      # dark cards, the default
+apply(theme="light")         # white background, for README figures
+```
+
+**Type.** `display()` is Didot, a high-contrast didone, for headlines and big
+numbers. `text()` is Iowan Old Style, sturdier, for labels, tick marks and table
+cells. The split matters: below about 30pt Didot's hairlines break up on a dark
+background, and `345 Hz` starts reading as `345 IIz`.
+
+Both fall back through a chain of similar faces, so a machine without Didot gets
+another serif rather than dropping to matplotlib's DejaVu Sans.
+
+**Marks.** Cards signal pass/fail with colour and wording, never with `✓` / `✗`.
+None of the serifs carry dingbats, and the Unicode fallbacks map those codepoints
+to unrelated glyphs (Arial Unicode MS renders them as airplanes).
+
+**Palette.** Violet `#b39cff` is the project colour, on a near-black `#0d0b14`
+with a violet cast. Green and red are reserved for verdicts.

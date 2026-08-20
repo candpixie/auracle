@@ -18,15 +18,17 @@ from uncertainty import (FS, TONE_A, TONE_B, build_signal,
 
 OUT = Path(__file__).parent / "out"
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from auracle.style import ACCENT, BG, DIM, FG, GOOD, BAD, apply, display, text
+
+apply()
+
+
 SHOW = [128, 8192]
 LABELS = ["TINY CHUNKS\n2.9 ms", "BIG CHUNKS\n186 ms"]
 DB_RANGE = 70
 
-BG = "#0d0b14"
-FG = "#f2eef7"
-ACCENT = "#b39cff"
-GOOD = "#6ee7a8"
-BAD = "#ff6b8a"
 
 
 def main():
@@ -43,7 +45,7 @@ def main():
     # 1080 x 1920 at 100 dpi
     fig, axes = plt.subplots(2, 2, figsize=(10.8, 19.2))
     fig.suptitle("same sound.\ntwo different chunk sizes.",
-                 fontsize=32, color=FG, y=0.985, va="top", linespacing=1.35)
+                 **display(32), color=FG, y=0.985, va="top", linespacing=1.35)
 
     for col, n in enumerate(SHOW):
         # --- the two clicks, 20 ms apart ---
@@ -54,12 +56,12 @@ def main():
         im.set_clim(top - DB_RANGE, top)
         ax.set_xlim(0.56, 0.67)
         ax.set_ylim(2000, 12000)
-        ax.set_title(LABELS[col], fontsize=24, color=ACCENT, pad=14, linespacing=1.25)
+        ax.set_title(LABELS[col], **text(24), color=ACCENT, pad=14, linespacing=1.25)
         ax.set_xticks([])
         ax.set_yticks([])
         good = resolves_clicks(spec, sfreqs, stimes)
-        ax.text(0.5, -0.09, "2 CLICKS ✓" if good else "1 SMEAR ✗",
-                transform=ax.transAxes, ha="center", fontsize=27,
+        ax.text(0.5, -0.09, "2 CLICKS" if good else "1 SMEAR",
+                transform=ax.transAxes, ha="center", **text(27),
                 color=GOOD if good else BAD, weight="bold")
 
         # --- the two notes, 20 Hz apart ---
@@ -79,16 +81,16 @@ def main():
         if not good:
             ax.text(0.5, 0.45, "only ~1 data point\nin this whole range",
                     transform=ax.transAxes, ha="center", va="center",
-                    fontsize=17, color="#7a7196", style="italic", linespacing=1.4)
-        ax.text(0.5, -0.09, "2 NOTES ✓" if good else "1 BLOB ✗",
-                transform=ax.transAxes, ha="center", fontsize=27,
+                    **text(17), color="#7a7196", style="italic", linespacing=1.4)
+        ax.text(0.5, -0.09, "2 NOTES" if good else "1 BLOB",
+                transform=ax.transAxes, ha="center", **text(27),
                 color=GOOD if good else BAD, weight="bold")
 
-    axes[0, 0].set_ylabel("WHEN did it happen?", fontsize=23, color=FG, labelpad=18)
-    axes[1, 0].set_ylabel("WHAT were the notes?", fontsize=23, color=FG, labelpad=18)
+    axes[0, 0].set_ylabel("WHEN did it happen?", **text(23), color=FG, labelpad=18)
+    axes[1, 0].set_ylabel("WHAT were the notes?", **text(23), color=FG, labelpad=18)
 
     fig.text(0.5, 0.026, "no chunk size gets both.", ha="center",
-             fontsize=30, color=FG, weight="bold")
+             **display(30), color=FG, weight="bold")
 
     fig.subplots_adjust(top=0.845, bottom=0.105, hspace=0.22, wspace=0.09)
     fig.savefig(OUT / "video_uncertainty.png", dpi=100, facecolor=BG)

@@ -25,17 +25,19 @@ from uncertainty import (FS, TONE_A, TONE_B, build_signal,
                          resolves_clicks, resolves_notes)
 
 OUT = Path(__file__).parent / "out"
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from auracle.style import ACCENT, BG, DIM, FG, GOOD, BAD, apply, display, text
+
+apply()
+
 FRAMES = OUT / "_frames"
 
 N_MIN, N_MAX = 64, 16384
 STEPS = 90          # frames on the way up; the animation ping-pongs, so 180 total
 FPS = 30
 
-BG = "#0d0b14"
-FG = "#f2eef7"
-ACCENT = "#b39cff"
-GOOD = "#6ee7a8"
-BAD = "#ff6b8a"
 DB_RANGE = 70
 
 
@@ -53,7 +55,7 @@ def render_frame(x, n, idx):
 
     with plt.rc_context(DARK):
         fig = plt.figure(figsize=(10.8, 19.2))
-        fig.suptitle("one sound.\nsliding the chunk size.", fontsize=32, color=FG,
+        fig.suptitle("one sound.\nsliding the chunk size.", **display(32), color=FG,
                      y=0.985, va="top", linespacing=1.35)
 
         # explicit positions. gridspec + a readout between panels is not worth
@@ -71,9 +73,9 @@ def render_frame(x, n, idx):
         ax_top.set_xlim(0.56, 0.67)
         ax_top.set_ylim(2000, 12000)
         ax_top.set_xticks([]); ax_top.set_yticks([])
-        ax_top.set_ylabel("WHEN did it happen?", fontsize=22, labelpad=16)
+        ax_top.set_ylabel("WHEN did it happen?", **text(22), labelpad=16)
         fig.text(0.535, 0.545, "2 CLICKS \u2713" if clicks_ok else "1 SMEAR \u2717",
-                 ha="center", va="top", fontsize=27,
+                 ha="center", va="top", **text(27),
                  color=GOOD if clicks_ok else BAD, weight="bold")
 
         # ---- WHAT: the two notes, 20 Hz apart ----
@@ -89,14 +91,14 @@ def render_frame(x, n, idx):
         ax_bot.set_xlim(370, 530)
         ax_bot.set_ylim(-55, 8)
         ax_bot.set_xticks([]); ax_bot.set_yticks([])
-        ax_bot.set_ylabel("WHAT were the notes?", fontsize=22, labelpad=16)
+        ax_bot.set_ylabel("WHAT were the notes?", **text(22), labelpad=16)
         fig.text(0.535, 0.205, "2 NOTES \u2713" if notes_ok else "1 BLOB \u2717",
-                 ha="center", va="top", fontsize=27,
+                 ha="center", va="top", **text(27),
                  color=GOOD if notes_ok else BAD, weight="bold")
 
         # ---- readout and slider ----
         fig.text(0.535, 0.150, f"chunk = {dt_ms:.1f} ms", ha="center", va="top",
-                 fontsize=30, color=FG, weight="bold")
+                 **display(30), color=FG, weight="bold")
 
         ax_bar.set_xlim(np.log2(N_MIN), np.log2(N_MAX))
         ax_bar.set_ylim(0, 1)
@@ -105,11 +107,11 @@ def render_frame(x, n, idx):
         ax_bar.set_xticks([]); ax_bar.set_yticks([])
         for spine in ax_bar.spines.values():
             spine.set_visible(False)
-        fig.text(0.14, 0.068, "tiny chunks", fontsize=18, color="#7a7196")
-        fig.text(0.93, 0.068, "big chunks", fontsize=18, color="#7a7196", ha="right")
+        fig.text(0.14, 0.068, "tiny chunks", **text(18), color="#7a7196")
+        fig.text(0.93, 0.068, "big chunks", **text(18), color="#7a7196", ha="right")
 
         fig.text(0.5, 0.026, "no chunk size gets both.", ha="center",
-                 fontsize=29, color=FG, weight="bold")
+                 **text(29), color=FG, weight="bold")
 
         fig.savefig(FRAMES / f"f{idx:04d}.png", dpi=100, facecolor=BG)
         plt.close(fig)

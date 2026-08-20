@@ -26,14 +26,19 @@ import numpy as np
 
 OUT = Path(__file__).parent / "out"
 
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from auracle.style import ACCENT, BG, DIM, FG, GOOD, BAD, apply, display, text
+
+apply()
+
+EAR = GOOD
+MACHINE = BAD
+
+
 FS = 44_100
 STFT_N = 2048                      # one representative window choice
 
-BG = "#0d0b14"
-FG = "#f2eef7"
-ACCENT = "#b39cff"
-EAR = "#6ee7a8"
-MACHINE = "#ff6b8a"
 
 
 def erb(f):
@@ -55,7 +60,7 @@ def main():
     })
 
     fig = plt.figure(figsize=(10.8, 19.2))
-    fig.suptitle("your ear doesn't pick\none chunk size.", fontsize=34, color=FG,
+    fig.suptitle("your ear doesn't pick\none chunk size.", **display(34), color=FG,
                  y=0.982, va="top", linespacing=1.35)
 
     ax = fig.add_axes([0.17, 0.285, 0.76, 0.565])
@@ -68,28 +73,28 @@ def main():
         y = 1000.0 / erb(hz)
         ax.plot(hz, y, "o", ms=15, color=EAR, zorder=6)
         ax.annotate(f"{txt}\n{y:.0f} ms", (hz, y), textcoords="offset points",
-                    xytext=(0, -78), ha="center", fontsize=17, color=EAR,
+                    xytext=(0, -78), ha="center", **text(17), color=EAR,
                     linespacing=1.3)
 
     ax.set_xlim(50, 16000)
     ax.set_ylim(0.5, 200)
-    ax.set_xlabel("frequency", fontsize=21, labelpad=14)
-    ax.set_ylabel("how sharply it can time an event  (ms)", fontsize=20, labelpad=14)
+    ax.set_xlabel("frequency", **text(21), labelpad=14)
+    ax.set_ylabel("how sharply it can time an event  (ms)", **text(20), labelpad=14)
     ax.grid(which="both", alpha=0.12)
     ax.legend(loc="upper right", fontsize=18, facecolor=BG, edgecolor="#3a3350",
               labelcolor=FG)
 
     fig.text(0.5, 0.225,
              f"the machine: {STFT_N / FS * 1000:.0f} ms everywhere.",
-             ha="center", fontsize=25, color=MACHINE, weight="bold")
+             ha="center", **text(25), color=MACHINE, weight="bold")
     fig.text(0.5, 0.175,
              "your ear: 30 ms down low, 1 ms up high.",
-             ha="center", fontsize=25, color=EAR, weight="bold")
+             ha="center", **text(25), color=EAR, weight="bold")
     fig.text(0.5, 0.095,
              "sharp pitch where pitch lives.\nsharp timing where clicks live.",
-             ha="center", fontsize=27, color=FG, linespacing=1.4)
+             ha="center", **text(27), color=FG, linespacing=1.4)
     fig.text(0.5, 0.030, "it cheats. the STFT can't.",
-             ha="center", fontsize=31, color=FG, weight="bold")
+             ha="center", **display(31), color=FG, weight="bold")
 
     fig.savefig(OUT / "video_cochlea.png", dpi=100, facecolor=BG)
 

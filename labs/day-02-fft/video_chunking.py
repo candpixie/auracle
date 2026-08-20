@@ -22,6 +22,16 @@ import numpy as np
 from uncertainty import FS, CLICK_TIMES, build_signal
 
 OUT = Path(__file__).parent / "out"
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from auracle.style import ACCENT, BG, DIM, FG, GOOD, BAD, apply, display, text
+
+apply()
+
+WAVE = "#e8e3f5"
+HILITE = GOOD
+
 FRAMES = OUT / "_frames_chunk"
 
 T0, T1 = 0.40, 0.90          # the window we show, containing both clicks
@@ -29,11 +39,6 @@ N_MIN, N_MAX = 256, 16384
 STEPS = 60
 FPS = 30
 
-BG = "#0d0b14"
-FG = "#f2eef7"
-ACCENT = "#b39cff"
-WAVE = "#e8e3f5"
-HILITE = "#6ee7a8"
 
 
 def render(x, n, idx, sweep):
@@ -45,7 +50,7 @@ def render(x, n, idx, sweep):
     with plt.rc_context({"figure.facecolor": BG, "axes.facecolor": BG,
                          "text.color": FG, "axes.edgecolor": "#3a3350"}):
         fig = plt.figure(figsize=(10.8, 19.2))
-        fig.suptitle("the computer can't\nhear all of it at once.", fontsize=33,
+        fig.suptitle("the computer can't\nhear all of it at once.", **display(33),
                      color=FG, y=0.975, va="top", linespacing=1.35)
 
         ax = fig.add_axes([0.09, 0.30, 0.86, 0.50])
@@ -77,16 +82,16 @@ def render(x, n, idx, sweep):
         ax.set_xlim(T0, T1)
         ax.set_ylim(-1.15, 1.15)
         ax.set_xticks([]); ax.set_yticks([])
-        ax.set_xlabel("half a second of sound", fontsize=21, color=FG, labelpad=16)
+        ax.set_xlabel("half a second of sound", **text(21), color=FG, labelpad=16)
 
         n_chunks = max(1, int(round((T1 - T0) / dt)))
         fig.text(0.5, 0.235, f"chunk = {dt * 1000:.0f} ms", ha="center", va="top",
-                 fontsize=34, color=FG, weight="bold")
+                 **display(34), color=FG, weight="bold")
         fig.text(0.5, 0.180, f"{n_chunks} chunk{'s' if n_chunks != 1 else ''} "
                              f"in half a second", ha="center", va="top",
-                 fontsize=25, color=ACCENT)
+                 **text(25), color=ACCENT)
         fig.text(0.5, 0.085, "it looks at one chunk at a time.\nthat's the whole problem.",
-                 ha="center", va="top", fontsize=28, color=FG, linespacing=1.45)
+                 ha="center", va="top", **text(28), color=FG, linespacing=1.45)
 
         fig.savefig(FRAMES / f"f{idx:04d}.png", dpi=100, facecolor=BG)
         plt.close(fig)
@@ -106,10 +111,10 @@ def render_still():
     with plt.rc_context({"figure.facecolor": BG, "axes.facecolor": BG,
                          "text.color": FG, "axes.edgecolor": "#3a3350"}):
         fig = plt.figure(figsize=(10.8, 19.2))
-        fig.suptitle("the computer can't\nhear all of it at once.", fontsize=33,
+        fig.suptitle("the computer can't\nhear all of it at once.", **display(33),
                      color=FG, y=0.978, va="top", linespacing=1.35)
         fig.text(0.5, 0.876, "it slices the sound up and looks at one slice at a time.",
-                 ha="center", va="top", fontsize=21, color="#9d94b8")
+                 ha="center", va="top", **text(21), color="#9d94b8")
 
         for row, n in enumerate(STILL_CHUNKS):
             dt = n / FS
@@ -139,16 +144,16 @@ def render_still():
 
             n_chunks = max(1, int(round((T1 - T0) / dt)))
             label = "TINY CHUNKS" if row == 0 else "BIG CHUNKS"
-            fig.text(0.09, 0.822 - row * 0.345, label, fontsize=27,
+            fig.text(0.09, 0.822 - row * 0.345, label, **text(27),
                      color=ACCENT, weight="bold")
             fig.text(0.95, 0.822 - row * 0.345,
                      f"{dt * 1000:.0f} ms  ·  {n_chunks} chunks",
-                     fontsize=23, color="#9d94b8", ha="right")
+                     **text(23), color="#9d94b8", ha="right")
 
         fig.text(0.5, 0.145, "green = the one chunk it's looking at right now.",
-                 ha="center", va="top", fontsize=23, color=HILITE)
+                 ha="center", va="top", **text(23), color=HILITE)
         fig.text(0.5, 0.075, "everything outside it is invisible\nuntil the next chunk.",
-                 ha="center", va="top", fontsize=28, color=FG, linespacing=1.45)
+                 ha="center", va="top", **text(28), color=FG, linespacing=1.45)
 
         fig.savefig(OUT / "video_chunking_still.png", dpi=100, facecolor=BG)
         plt.close(fig)

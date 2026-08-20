@@ -25,6 +25,13 @@ from uncertainty import (FS, TONE_A, TONE_B, build_signal,
                          resolves_clicks, resolves_notes)
 
 OUT = Path(__file__).parent / "out"
+
+import sys
+sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "src"))
+from auracle.style import ACCENT, BG, DIM, FG, GOOD, BAD, apply, display, text
+
+apply()
+
 FRAMES = OUT / "_frames_sbs"
 
 COLS = [128, 8192]
@@ -32,11 +39,6 @@ HEAD = ["TINY CHUNKS\n2.9 ms", "BIG CHUNKS\n186 ms"]
 FPS = 30
 DB_RANGE = 70
 
-BG = "#0d0b14"
-FG = "#f2eef7"
-ACCENT = "#b39cff"
-GOOD = "#6ee7a8"
-BAD = "#ff6b8a"
 
 
 def precompute(x):
@@ -71,7 +73,7 @@ def render(panels, idx, active):
     with plt.rc_context({"figure.facecolor": BG, "axes.facecolor": BG,
                          "text.color": FG, "axes.edgecolor": "#3a3350"}):
         fig = plt.figure(figsize=(10.8, 19.2))
-        fig.suptitle("same sound.\ntwo different chunk sizes.", fontsize=32,
+        fig.suptitle("same sound.\ntwo different chunk sizes.", **display(32),
                      color=FG, y=0.985, va="top", linespacing=1.35)
 
         for col, p in enumerate(panels):
@@ -91,17 +93,17 @@ def render(panels, idx, active):
             ax_b.set_xticks([]); ax_b.set_yticks([])
 
             cx = x0 + 0.1975
-            fig.text(cx, 0.868, HEAD[col], ha="center", va="top", fontsize=23,
+            fig.text(cx, 0.868, HEAD[col], ha="center", va="top", **text(23),
                      color=ACCENT, linespacing=1.25)
-            fig.text(cx, 0.548, "2 CLICKS ✓" if p["clicks"] else "1 SMEAR ✗",
-                     ha="center", va="top", fontsize=25,
+            fig.text(cx, 0.548, "2 CLICKS" if p["clicks"] else "1 SMEAR",
+                     ha="center", va="top", **text(25),
                      color=GOOD if p["clicks"] else BAD, weight="bold")
-            fig.text(cx, 0.228, "2 NOTES ✓" if p["notes"] else "1 BLOB ✗",
-                     ha="center", va="top", fontsize=25,
+            fig.text(cx, 0.228, "2 NOTES" if p["notes"] else "1 BLOB",
+                     ha="center", va="top", **text(25),
                      color=GOOD if p["notes"] else BAD, weight="bold")
 
-        fig.text(0.055, 0.697, "WHEN", rotation=90, va="center", fontsize=21, color=FG)
-        fig.text(0.055, 0.377, "WHAT", rotation=90, va="center", fontsize=21, color=FG)
+        fig.text(0.055, 0.697, "WHEN", rotation=90, va="center", **text(21), color=FG)
+        fig.text(0.055, 0.377, "WHAT", rotation=90, va="center", **text(21), color=FG)
 
         # dim the column that isn't being talked about
         if active is not None:
@@ -115,11 +117,11 @@ def render(panels, idx, active):
                                          edgecolor=ACCENT, lw=3, zorder=21))
             caption = ("catches the clicks.\nloses the notes." if active == 0
                        else "catches the notes.\nloses the clicks.")
-            fig.text(0.5, 0.145, caption, ha="center", va="top", fontsize=31,
+            fig.text(0.5, 0.145, caption, ha="center", va="top", **display(31),
                      color=FG, linespacing=1.45, zorder=22)
 
         fig.text(0.5, 0.030, "no chunk size gets both.", ha="center",
-                 fontsize=29, color=FG, weight="bold")
+                 **text(29), color=FG, weight="bold")
 
         fig.savefig(FRAMES / f"f{idx:04d}.png", dpi=100, facecolor=BG)
         plt.close(fig)
