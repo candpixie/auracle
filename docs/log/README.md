@@ -43,7 +43,7 @@ Anything that doesn't survive gets retracted here, in public, with a line throug
 | [02](day-02.md) | Frequency becomes pitch | you can't know *when* and *what* at the same time |
 | [03](day-03.md) | Amplitude becomes loudness | every loudness meter is a guess about a person |
 | [04](day-04.md) | The perceptual frequency axis | "mel spectrogram" names two different scales that disagree by 2x |
-| 05 | Timbre | the standard tool for music throws away pitch on purpose |
+| [05](day-05.md) | Timbre | mean-pooled MFCCs cannot see time reversal at all |
 | 06 | Pitch that isn't there | |
 | 07 | The beat is not in the signal | the machine hears half-time |
 | 08 | The cocktail party problem | the hardest thing ears do, and machines mostly can't |
