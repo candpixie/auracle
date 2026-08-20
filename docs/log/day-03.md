@@ -40,10 +40,20 @@ ear is losing sensitivity up there) and LUFS says -16.7, one of the loudest tone
 set. They disagree by 7.6 dB about the same file, and it's LUFS, the industry standard,
 that contradicts perception.
 
-That's a limitation of the standard, not of my code. K-weighting inside BS.1770 has a high
-shelf that keeps boosting above 2 kHz to model head diffraction for broadband programme
-material. It was never designed to judge a lone 12.5 kHz sine, and on one it's just wrong.
-This is the meter every streaming service runs on every song.
+I first wrote that off as "the standard is wrong," then measured the K-weighting curve
+directly instead of trusting my own explanation. It is a **flat +3.3 dB shelf above about
+4 kHz**, not something that keeps climbing. And that shelf models head and torso
+diffraction, not loudness perception. BS.1770 never claimed to be an equal-loudness
+meter.
+
+So at 12.5 kHz, A-weighting subtracts 4.3 dB because your ear is losing sensitivity while
+K-weighting adds 3.3 dB for diffraction. That is the 7.6 dB, and neither meter is
+malfunctioning.
+
+The honest verdict: BS.1770 is defined for broadband programme material and a lone sine
+is outside its domain. On real music, high frequencies are a small share of total energy,
+so the shelf rarely decides anything. This is a tool used outside its spec, not a broken
+tool.
 
 ## The thing that actually got me
 
