@@ -44,7 +44,7 @@ Anything that doesn't survive gets retracted here, in public, with a line throug
 | [03](day-03.md) | Amplitude becomes loudness | every loudness meter is a guess about a person |
 | [04](day-04.md) | The perceptual frequency axis | "mel spectrogram" names two different scales that disagree by 2x |
 | [05](day-05.md) | Timbre | mean-pooled MFCCs cannot see time reversal at all |
-| 06 | Pitch that isn't there | |
+| [06](day-06.md) | Pitch that isn't there | the octave error is a coin flip lost by 0.0001 |
 | 07 | The beat is not in the signal | the machine hears half-time |
 | 08 | The cocktail party problem | the hardest thing ears do, and machines mostly can't |
 | 09 | Source separation | |
