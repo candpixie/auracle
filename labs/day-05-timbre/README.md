@@ -7,7 +7,7 @@ before a single full pitch period has elapsed.
 
 Timbre is the one perceptual attribute defined **negatively**. ANSI's definition is
 essentially "the attribute by which a listener judges two sounds with the same
-loudness, pitch and duration to be dissimilar." Everything left over.
+loudness, pitch and duration to be dissimilar." aka a process of elimination.
 
 ## The machine does this
 
