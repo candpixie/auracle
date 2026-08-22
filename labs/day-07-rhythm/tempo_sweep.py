@@ -130,22 +130,43 @@ def main():
 
     # ---- the picture ----
     fig, ax = plt.subplots(figsize=(13, 6))
-    colours = {"correct": GOOD, "half": BAD, "double": BAD,
-               "third": "#ffb86b", "triple": "#ffb86b", "other": DIM}
-    for name in colours:
+
+    # guide lines first, so the measurements sit on top
+    YLIM = (40, 260)
+    ax.plot(tempos, tempos, lw=1.6, ls="--", color=FG, alpha=0.45)
+    for factor, lab in ((0.5, "half"), (2.0, "double"), (2 / 3, "2/3")):
+        ax.plot(tempos, tempos * factor, lw=1.2, ls=":", color=DIM, alpha=0.6)
+        # label the line where it actually leaves the plot, not off-canvas
+        y_end = tempos[-1] * factor
+        if YLIM[0] < y_end < YLIM[1]:
+            ax.text(tempos[-1] + 2, y_end, lab, **text(12), color=DIM, va="center")
+        else:
+            x_at_top = YLIM[1] / factor
+            if tempos[0] < x_at_top < tempos[-1]:
+                ax.text(x_at_top, YLIM[1] - 8, lab, **text(12), color=DIM,
+                        ha="center", va="top")
+    ax.axhline(120, color=ACCENT, lw=1.6, alpha=0.45)
+    ax.text(207, 120, "120", **text(12), color=ACCENT, va="center")
+
+    # one colour per verdict, derived from LEVELS so nothing can go unplotted
+    palette = {"correct": GOOD}
+    for name, _ in LEVELS[1:]:
+        palette[name] = BAD
+    palette["not a metrical level"] = DIM
+
+    for name in palette:
         pts = [(t, e) for t, e, c in rows if c == name]
         if pts:
-            ax.scatter(*zip(*pts), s=42, color=colours[name], label=name, zorder=3)
+            ax.scatter(*zip(*pts), s=46, color=palette[name], label=name, zorder=3)
 
-    ax.plot(tempos, tempos, lw=1.6, ls="--", color=FG, alpha=0.5, label="correct")
-    ax.plot(tempos, tempos / 2, lw=1.4, ls=":", color=BAD, alpha=0.7, label="half")
-    ax.plot(tempos, tempos * 2, lw=1.4, ls=":", color=BAD, alpha=0.7)
     ax.set_xlabel("true tempo (BPM)", **text(15), color=FG)
     ax.set_ylabel("what the machine reported", **text(15), color=FG)
-    ax.set_ylim(30, 420)
-    ax.legend(fontsize=12, ncol=3)
+    ax.set_xlim(55, 212)
+    ax.set_ylim(*YLIM)
+    ax.legend(fontsize=12, ncol=4, loc="lower right")
     ax.grid(alpha=0.12)
-    ax.set_title("the same rhythm at 71 different tempos", **display(19), color=FG)
+    ax.set_title("the same rhythm at 71 tempos. everything is pulled toward 120.",
+                 **display(18), color=FG, pad=14)
     fig.tight_layout()
     fig.savefig(OUT / "tempo_sweep.png", dpi=150, facecolor=BG)
     print(f"\nwrote {OUT / 'tempo_sweep.png'}")
