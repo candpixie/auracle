@@ -45,7 +45,7 @@ Anything that doesn't survive gets retracted here, in public, with a line throug
 | [04](day-04.md) | The perceptual frequency axis | "mel spectrogram" names two different scales that disagree by 2x |
 | [05](day-05.md) | Timbre | mean-pooled MFCCs cannot see time reversal at all |
 | [06](day-06.md) | Pitch that isn't there | the octave error is a coin flip lost by 0.0001 |
-| 07 | The beat is not in the signal | the machine hears half-time |
+| [07](day-07.md) | The beat is not in the signal | it locks to the hi-hat, half a beat off the beat |
 | 08 | The cocktail party problem | the hardest thing ears do, and machines mostly can't |
 | 09 | Source separation | |
 | 10 | Tonality and key | it can't tell major from minor |

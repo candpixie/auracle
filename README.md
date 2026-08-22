@@ -27,7 +27,7 @@ However, not all of them explain why it fails from a humanistic perspective.
 | [04](labs/day-04-scales/) | The perceptual frequency axis | done |
 | [05](labs/day-05-timbre/) | Timbre, or why a violin is not a flute | done |
 | [06](labs/day-06-pitch/) | Pitch that isn't there | done |
-| 07 | The beat is not in the signal | |
+| [07](labs/day-07-rhythm/) | The beat is not in the signal | done |
 | 08 | The cocktail party problem | |
 | 09 | Source separation, the learned answer | |
 | 10 | Tonality and key | |
