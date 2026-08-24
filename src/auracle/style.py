@@ -15,6 +15,7 @@ Usage, from anywhere in the repo:
     apply(theme="light")    # white-background figures for the README
 """
 
+import matplotlib.pyplot as plt
 from cycler import cycler
 from matplotlib import font_manager, rcParams
 
@@ -28,6 +29,39 @@ BAD = "#ff6b8a"
 WARM = "#ffb86b"
 
 SERIES = [ACCENT, BAD, GOOD, WARM, "#7fd4ff", DIM]
+
+# --- safe area -----------------------------------------------------------------
+# Instagram Reels and TikTok overlay their own UI on a 1080x1920 frame, and some
+# surfaces crop or zoom on top of that. Anything outside this box can be covered
+# by the caption, the username, or the like/comment/share column, or simply cut.
+#
+# Keep ALL text inside it. Backgrounds and artwork may bleed past.
+SAFE = {"left": 0.09, "right": 0.91, "bottom": 0.21, "top": 0.85}
+SAFE_W = SAFE["right"] - SAFE["left"]
+SAFE_H = SAFE["top"] - SAFE["bottom"]
+
+
+def safe_axes(fig, x=0.0, y=0.0, w=1.0, h=1.0):
+    """
+    Axes positioned in SAFE-AREA fractions rather than figure fractions.
+
+    safe_axes(fig, 0, 0.5, 1, 0.5) is the top half of the safe box.
+    """
+    return fig.add_axes([SAFE["left"] + x * SAFE_W,
+                         SAFE["bottom"] + y * SAFE_H,
+                         w * SAFE_W, h * SAFE_H])
+
+
+def safe_y(fraction):
+    """Figure-space y for a position given as a fraction up the safe box."""
+    return SAFE["bottom"] + fraction * SAFE_H
+
+
+def draw_safe_guides(fig, colour="#ff5c8a"):
+    """Debug helper: outline the safe box so overflow is obvious."""
+    fig.patches.append(plt.Rectangle(
+        (SAFE["left"], SAFE["bottom"]), SAFE_W, SAFE_H,
+        transform=fig.transFigure, fill=False, edgecolor=colour, lw=2, ls="--"))
 
 # --- type --------------------------------------------------------------------
 # Didot is the high-contrast didone this project uses for display type. The

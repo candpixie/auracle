@@ -94,3 +94,28 @@ to unrelated glyphs (Arial Unicode MS renders them as airplanes).
 
 **Palette.** Violet `#b39cff` is the project colour, on a near-black `#0d0b14`
 with a violet cast. Green and red are reserved for verdicts.
+
+## Safe area
+
+Instagram Reels and TikTok overlay their own UI on a 1080x1920 frame, and some
+surfaces crop or zoom on top of that. `style.SAFE` marks the region that always
+survives:
+
+| edge | fraction | pixels on 1080x1920 |
+|------|----------|---------------------|
+| left | 0.09 | 97 |
+| right | 0.91 | 983 |
+| top | 0.85 | 288 from the top |
+| bottom | 0.21 | 1517 from the top |
+
+Usable area: **886 x 1229 px**.
+
+**Keep every word inside it.** Backgrounds and artwork may bleed past; text may
+not. Titles are the easiest thing to get wrong, because a title at `y=0.95` looks
+correct in a preview and gets covered by the username in the app.
+
+```python
+ax = safe_axes(fig, 0.0, 0.46, 1.0, 0.42)   # positions in SAFE fractions
+fig.text(0.5, safe_y(0.99), "title", ...)   # y as a fraction up the safe box
+draw_safe_guides(fig)                        # debug: outline the box
+```
