@@ -28,7 +28,7 @@ However, not all of them explain why it fails from a humanistic perspective.
 | [05](labs/day-05-timbre/) | Timbre, or why a violin is not a flute | done |
 | [06](labs/day-06-pitch/) | Pitch that isn't there | done |
 | [07](labs/day-07-rhythm/) | The beat is not in the signal | done |
-| 08 | The cocktail party problem | |
+| [08](labs/day-08-asa/) | The cocktail party problem | done |
 | 09 | Source separation, the learned answer | |
 | 10 | Tonality and key | |
 | 11 | Repetition, structure, and expectation | |

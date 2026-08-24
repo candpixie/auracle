@@ -46,7 +46,7 @@ Anything that doesn't survive gets retracted here, in public, with a line throug
 | [05](day-05.md) | Timbre | mean-pooled MFCCs cannot see time reversal at all |
 | [06](day-06.md) | Pitch that isn't there | the octave error is a coin flip lost by 0.0001 |
 | [07](day-07.md) | The beat is not in the signal | it locks to the hi-hat, half a beat off the beat |
-| 08 | The cocktail party problem | the hardest thing ears do, and machines mostly can't |
+| [08](day-08.md) | The cocktail party problem | consonance is harmonic overlap, so music defeats the cue |
 | 09 | Source separation | |
 | 10 | Tonality and key | it can't tell major from minor |
 | 11 | Repetition and structure | it finds acoustic repetition, not musical form |
