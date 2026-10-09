@@ -1,6 +1,6 @@
 # Auracle
 
-**17 days of machine listening.** Timeline: Aug 16 to Sep 1, 2026.
+**17 days of machine listening.** Day 1 was Aug 16, 2026. The days are numbered, not consecutive.
 
 > Can a machine hear what a person hears?
 
@@ -29,7 +29,7 @@ However, not all of them explain why it fails from a humanistic perspective.
 | [06](labs/day-06-pitch/) | Pitch that isn't there | done |
 | [07](labs/day-07-rhythm/) | The beat is not in the signal | done |
 | [08](labs/day-08-asa/) | The cocktail party problem | done |
-| 09 | Source separation, the learned answer | |
+| [09](labs/day-09-separation/) | Source separation, the learned answer | done |
 | 10 | Tonality and key | |
 | 11 | Repetition, structure, and expectation | |
 | 12 | DSP in C++ | |
