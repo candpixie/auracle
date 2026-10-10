@@ -1,8 +1,9 @@
 # Auracle
 
-**17 days of machine listening.** Day 1 was Aug 16, 2026. The days are numbered, not consecutive.
+> **Can a machine hear what a person hears?**
 
-> Can a machine hear what a person hears?
+Machine listening built from scratch in numpy rather than called from a library.
+Not a course. One question, and whatever I have to learn to answer it.
 
 *Auracle* = aura + oracle, landing on **auricle**, the outer ear.
 
@@ -10,16 +11,16 @@
 
 ## The structure
 
-Every day follows the same three beats:
+Every entry follows the same three beats:
 
 > **1. The ear does this.  2. The machine does this.  3. Here is where the machine fails.**
 
 The third beat is the main goal. Every learning log on the internet has resources and code.
 However, not all of them explain why it fails from a humanistic perspective.
 
-## The 17 days
+## The labs
 
-| Day | Title | Status |
+| | Title | Status |
 |-----|-------|--------|
 | [01](labs/day-01-sampling/) | Air pressure becomes a number | done |
 | [02](labs/day-02-fft/) | Frequency becomes pitch | done |
@@ -40,14 +41,14 @@ However, not all of them explain why it fails from a humanistic perspective.
 | 17 | Ship | |
 
 Full plan: [`docs/plans/2026-08-16-auracle-design.md`](docs/plans/2026-08-16-auracle-design.md)
-Daily logs: [`docs/log/`](docs/log/)
+Logs: [`docs/log/`](docs/log/)
 
 ## Results
 
-Filled in on day 16, after every claim in this repo is tested against a shuffled-label null.
+Filled in near the end, after every claim in this repo is tested against a shuffled-label null.
 Anything that does not survive gets retracted here, visibly.
 
-| Claim | Day | Beat chance? |
+| Claim | Lab | Beat chance? |
 |-------|-----|--------------|
 | *pending* | | |
 
@@ -71,7 +72,7 @@ python labs/day-01-sampling/aliasing.py
 Built from primary sources: papers, library documentation, and the canonical texts.
 The backbone reference is Meinard Müller, *Fundamentals of Music Processing*
 ([FMP notebooks](https://www.audiolabs-erlangen.de/resources/MIR/FMP/C0/C0.html), free and executable).
-Per-day citations live in each daily log.
+Citations live in each log entry.
 
 ## License
 

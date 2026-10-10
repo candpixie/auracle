@@ -72,7 +72,7 @@ Day 1 is the one exception. Premise-heavy is correct there, exactly once.
 | 14 | trained it for six hours. a pretrained model beat it in ten minutes. |
 | 15 | can your spotify tell people who you are? |
 | 16 | **i tested whether any of this beat random guessing** |
-| 17 | 17 days. here's what actually worked. |
+| 17 | here's what actually worked. |
 
 Days 6 and 16 are the two big ones. Day 6 makes people hear an illusion through their
 phone speaker, which is a share mechanic that talking-head formats do not have. Day 10

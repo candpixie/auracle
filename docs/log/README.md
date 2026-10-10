@@ -1,6 +1,6 @@
 # Auracle — field notes
 
-**17 days of machine listening.** Day 1 was Aug 16, 2026. The days are numbered, not consecutive.
+**Machine listening, built from scratch.**
 
 ---
 
@@ -9,8 +9,8 @@
 > Can a machine hear what a person hears?
 
 I'm a musician and a computer science student, and those two things have never really
-touched each other in my work. Summer classes ate my summer, so I have 17 days before
-school starts, and I'm spending them on the one place those two things meet.
+touched each other in my work. This is the one place they meet, worked through one
+problem at a time.
 
 Not a course. One question, and whatever I have to learn to answer it.
 
@@ -28,7 +28,7 @@ Resources are at the bottom of each entry, deliberately. They're not the content
 
 ## The scoreboard
 
-Every claim I make in these 17 days gets tested against a shuffled-label null on day 16.
+Every claim I make here gets tested against a shuffled-label null before the end.
 Anything that doesn't survive gets retracted here, in public, with a line through it.
 
 | Claim | Day | Beat chance? |

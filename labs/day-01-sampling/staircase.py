@@ -1,7 +1,7 @@
 """
 Day 1: the staircase.
 
-The single most important idea of the whole 17 days, and it takes one figure:
+The single most important idea in the whole project, and it takes one figure:
 a digital sound is a list of numbers. Amplitude, measured 44,100 times a second.
 Every transform in every later lab is a rearrangement of that list.
 
